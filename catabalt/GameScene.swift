@@ -21,15 +21,18 @@ class GameScene: SKScene {
 	override init(size: CGSize) {
 		super.init(size: size)
 		
+		physicsWorld.gravity = CGVector(dx: 0, dy: -13.0)
+		
 		backgroundColor = SKColor.greenColor()
 		foregroundNode = SKSpriteNode()
 		
 		catNode = SKSpriteNode(imageNamed: "cat.png")
 		catNode!.size = CGSize(width: 50.0, height: 39.0)
-		catNode!.position = CGPointMake(catNode!.size.width / 2 + 10.0, 100.0)
+		catNode!.position = CGPointMake(catNode!.size.width / 2 + 50.0, 100.0)
 		catNode!.anchorPoint = CGPointMake(0.5, 0.5)
 		catNode!.physicsBody = SKPhysicsBody(rectangleOfSize: catNode!.size)
 		catNode!.physicsBody!.dynamic = true
+		catNode!.physicsBody!.allowsRotation = false
 		addChild(catNode)
 		
 		groundNode = SKSpriteNode()
@@ -41,16 +44,22 @@ class GameScene: SKScene {
 		groundNode!.physicsBody!.dynamic = false
 		addChild(groundNode)
 		
-		generateShelves(10)
+		generateShelves(100)
 		
 		addChild(foregroundNode)
 	}
 	
 	override func update(currentTime: NSTimeInterval) {
-		foregroundNode!.position = CGPoint(x: foregroundNode!.position.x - 2.0, y: foregroundNode!.position.y)
+		foregroundNode!.position = CGPoint(x: foregroundNode!.position.x - 4.0, y: foregroundNode!.position.y)
 	}
 	
+	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+		catNode!.physicsBody!.applyImpulse(CGVectorMake(0.0, 60.0))
+	}
+
+	
 	func generateShelves(amount: Int) {
+		var prevPosition: CGPoint
 		var position = CGPoint(x: 150.0, y: 40.0)
 		
 		for i in 1...amount {
@@ -62,14 +71,11 @@ class GameScene: SKScene {
 			
 			foregroundNode!.addChild(shelfNode)
 			
-			position.x += 120.0
-			let randomY = arc4random_uniform( UInt32(size.height) + 1 )
+			prevPosition = shelfNode.position
+			
+			position.x += 150.0
+			let randomY = arc4random_uniform( UInt32(prevPosition.y + 120.0) + 1 )
 			position.y = CGFloat(randomY)
 		}
 	}
-	
-	override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-    }
-	
 }
