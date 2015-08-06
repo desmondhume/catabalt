@@ -30,7 +30,7 @@ class GameScene: SKScene {
 		catNode!.anchorPoint = CGPointMake(0.5, 0.5)
 		catNode!.physicsBody = SKPhysicsBody(rectangleOfSize: catNode!.size)
 		catNode!.physicsBody!.dynamic = true
-		foregroundNode!.addChild(catNode)
+		addChild(catNode)
 		
 		groundNode = SKSpriteNode()
 		groundNode!.color = SKColor.brownColor()
@@ -39,16 +39,19 @@ class GameScene: SKScene {
 		groundNode!.position = CGPointMake(0.0, 0.0)
 		groundNode!.physicsBody = SKPhysicsBody(rectangleOfSize: groundNode!.size)
 		groundNode!.physicsBody!.dynamic = false
-		
-		foregroundNode!.addChild(groundNode)
+		addChild(groundNode)
 		
 		generateShelves(10)
 		
 		addChild(foregroundNode)
 	}
 	
+	override func update(currentTime: NSTimeInterval) {
+		foregroundNode!.position = CGPoint(x: foregroundNode!.position.x - 2.0, y: foregroundNode!.position.y)
+	}
+	
 	func generateShelves(amount: Int) {
-		var position = CGPoint(x: 150.0, y: 50.0)
+		var position = CGPoint(x: 150.0, y: 40.0)
 		
 		for i in 1...amount {
 			var shelfNode = SKSpriteNode(color: SKColor.brownColor(), size: CGSize(width: 100.0, height: 10.0))
