@@ -50,7 +50,11 @@ class GameScene: SKScene {
 	}
 	
 	override func update(currentTime: NSTimeInterval) {
-		foregroundNode!.position = CGPoint(x: foregroundNode!.position.x - 6.0, y: foregroundNode!.position.y)
+		foregroundNode!.position.x -= 6.0
+
+		if catNode!.position.y >= (size.height / 3)*2 {
+			foregroundNode!.position.y = -(catNode!.position.y - (size.height / 3)*2)
+		}
 	}
 	
 	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
