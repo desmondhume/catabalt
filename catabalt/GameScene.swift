@@ -21,7 +21,7 @@ class GameScene: SKScene {
 	override init(size: CGSize) {
 		super.init(size: size)
 		
-		physicsWorld.gravity = CGVector(dx: 0, dy: -13.0)
+		physicsWorld.gravity = CGVector(dx: 0, dy: -15.0)
 		
 		backgroundColor = SKColor.greenColor()
 		foregroundNode = SKSpriteNode()
@@ -50,20 +50,21 @@ class GameScene: SKScene {
 	}
 	
 	override func update(currentTime: NSTimeInterval) {
-		foregroundNode!.position = CGPoint(x: foregroundNode!.position.x - 4.0, y: foregroundNode!.position.y)
+		foregroundNode!.position = CGPoint(x: foregroundNode!.position.x - 6.0, y: foregroundNode!.position.y)
 	}
 	
 	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-		catNode!.physicsBody!.applyImpulse(CGVectorMake(0.0, 60.0))
+		catNode!.physicsBody!.applyImpulse(CGVectorMake(0.0, 70.0))
 	}
-
 	
 	func generateShelves(amount: Int) {
 		var prevPosition: CGPoint
+		var prevSize: CGSize
 		var position = CGPoint(x: 150.0, y: 40.0)
+		var size = CGSize(width: 100.0, height: 10.0)
 		
 		for i in 1...amount {
-			var shelfNode = SKSpriteNode(color: SKColor.brownColor(), size: CGSize(width: 100.0, height: 10.0))
+			var shelfNode = SKSpriteNode(color: SKColor.brownColor(), size: size)
 			shelfNode.name = "SHELF"
 			shelfNode.position = position
 			shelfNode.physicsBody = SKPhysicsBody(rectangleOfSize: shelfNode.size)
@@ -72,10 +73,15 @@ class GameScene: SKScene {
 			foregroundNode!.addChild(shelfNode)
 			
 			prevPosition = shelfNode.position
+			prevSize = shelfNode.size
 			
-			position.x += 150.0
-			let randomY = arc4random_uniform( UInt32(prevPosition.y + 120.0) + 1 )
-			position.y = CGFloat(randomY)
+			let randomSizeWidth = Int(UInt32(prevSize.width - 50.0) + arc4random_uniform( UInt32(prevSize.width + 100.0) - UInt32(prevSize.width - 50.0)) + 1)
+			size.width = CGFloat(randomSizeWidth)
+			
+			let randomPosY = arc4random_uniform( UInt32(prevPosition.y + 120.0) + 1 )
+			position.x = CGFloat(position.x + size.width + 100.0)
+			position.y = CGFloat(randomPosY)
+
 		}
 	}
 }
