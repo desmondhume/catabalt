@@ -61,6 +61,10 @@ class GameScene: SKScene {
 		catNode!.physicsBody!.applyImpulse(CGVectorMake(0.0, 70.0))
 	}
 	
+	func random(range: Range<UInt32>) -> UInt32 {
+		return range.startIndex + arc4random_uniform(range.endIndex - range.startIndex + 1)
+	}
+	
 	func generateShelves(amount: Int) {
 		var prevPosition: CGPoint
 		var prevSize: CGSize
@@ -79,10 +83,10 @@ class GameScene: SKScene {
 			prevPosition = shelfNode.position
 			prevSize = shelfNode.size
 			
-			let randomSizeWidth = Int(UInt32(prevSize.width - 50.0) + arc4random_uniform( UInt32(prevSize.width + 100.0) - UInt32(prevSize.width - 50.0)) + 1)
+			let randomSizeWidth = random(UInt32(50)...UInt32(prevSize.width+100.0))
 			size.width = CGFloat(randomSizeWidth)
 			
-			let randomPosY = arc4random_uniform( UInt32(prevPosition.y + 120.0) + 1 )
+			let randomPosY = random(UInt32(50)...UInt32(prevPosition.y+100.0))
 			position.x = CGFloat(position.x + size.width + 100.0)
 			position.y = CGFloat(randomPosY)
 
