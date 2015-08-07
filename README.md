@@ -1,2 +1,2 @@
 # catabalt
-A purrting of Adam Atomic canabalt in Swift
+A purrting of [Adam Atomic Canabalt](http://www.adamatomic.com/canabalt/) in Swift
